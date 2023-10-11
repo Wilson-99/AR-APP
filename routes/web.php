@@ -1,8 +1,7 @@
 <?php
 
-use App\Livewire\Auth\Login;
-use App\Livewire\Auth\Register;
-use Illuminate\Support\Facades\Auth;
+use App\Livewire\Tenant;
+use App\Livewire\CreateTenant;
 use Illuminate\Support\Facades\Route;
 
 
@@ -17,15 +16,20 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-/*Route::get('/', function () {
+Route::get('/', function(){
     return view('welcome');
-});*/
-
-Auth::routes(['login' => false, 'register' => false, 'verify' => true]);
-
-route::middleware('guest')->group( function() {
-    Route::get('/login', Login::class)->name('login');
-    Route::get('/register', Register::class)->name('register');
 });
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::middleware([
+    'auth:sanctum',
+    config('jetstream.auth_session'),
+    'verified',
+])->group(function () {
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
+
+    Route::get('/tenant', Tenant::class)->name('tenant');
+    Route::get('/createTenant', Tenant::class)->name('createTenant');
+
+});

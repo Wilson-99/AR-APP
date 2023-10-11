@@ -25,12 +25,7 @@ Route::middleware([
     InitializeTenancyByDomain::class,
     PreventAccessFromCentralDomains::class,
 ])->group(function () {
-    Auth::routes(['login' => false, 'register' => false, 'verify' => true]);
-
-    route::middleware('guest')->group( function() {
-        Route::get('/login', Login::class)->name('login');
-        Route::get('/register', Register::class)->name('register');
+    Route::get('/', function () {
+        return 'This is your multi-tenant application. The id of the current tenant is ' . tenant('id');
     });
-
-    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 });

@@ -11,5 +11,4 @@ class Tenant extends BaseTenant implements TenantWithDatabase
 {
     use HasDatabase, HasDomains;
 
-    protected $guarded = [];
 }
